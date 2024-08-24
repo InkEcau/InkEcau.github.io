@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElementParkour</title>
+    <style>
+        html, body {
+            margin: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+        .main {
+            height: 100%;
+            position: relative;
+            top: 0;
+            transition: all 1000ms ease;
+            touch-action: none;
+            
+        }
+        .page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .page-title {
+            background-image: url(./bg.png);
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title-content {
+            margin-left: 40%;
+            width: 40%;
+        }
+
+        .title-content img {
+            width: 100%;
+        }
+
+        .title-content .buttons {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .title-content .button {
+            width: 120px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .title-content .button::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 100%;
+            height: 2px;
+            background-color: #fff;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+
+        .title-content .button:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .page-download {
+            padding-left: 20%;
+            padding-right: 20%;
+            background-image: url(./bg_2.png);
+        }
+
+        .page-download .separator {
+            width: 1px;
+            height: 400px;
+            background-color: #ccc;
+            margin: 0 15px;
+        }
+
+        .download-title {
+            font-size: 48px;
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-evenly;
+            font-weight: bold;
+        }
+
+        .page-download .download-right {
+            flex:1;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .download-link-title {
+            height: 36px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="page page-title">
+            <div class="title-content">
+                <img src="./logo.png" alt="ElementParkourLogo">
+                <div class="buttons">
+                    <div class="button" id="button-download-link">
+                        下载链接
+                    </div>
+                    <div class="button" id="button-join-group">
+                        加入社群
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page page-download">
+            <div class="download-left">
+                <img src="./logo.png" alt="ElementParkourLogo">
+                <div class="download-title">
+                    <div>下</div>
+                    <div>载</div>
+                    <div>链</div>
+                    <div>接</div>
+                </div>
+            </div>
+            <div class="separator"></div>
+            <div class="download-right">
+                <div class="download-link">
+                    <div class="download-link-title">>>> 网盘</div>
+                    <div class="download-netdisk">
+                        <a href=""><img src="./link_logo/lanzou.png" alt="lanzou"></a>
+                        <a href=""><img src="./link_logo/baidu_netdisk.png" alt="baidu_netdisk"></a>
+                        <a href=""><img src="./link_logo/quark_netdisk.png" alt="quark_netdisk"></a>
+                    </div>
+                </div>
+                <div class="download-link">
+                    <div class="download-link-title">>>> 论坛</div>
+                    <div class="download-bbs">
+                        <a href=""><img src="./link_logo/lanzou.png" alt="lanzou"></a>
+                        <a href=""><img src="./link_logo/baidu_netdisk.png" alt="baidu_netdisk"></a>
+                        <a href=""><img src="./link_logo/quark_netdisk.png" alt="quark_netdisk"></a>
+                    </div>
+                </div>
+                <div class="download-link">
+                    <div class="download-link-title">>>> 敬请期待</div>
+                </div>
+            </div>
+        </div>
+        <div class="page">3</div>
+
+    </div>
+    <script>
+        var container = document.querySelector('.main')
+        // 获取浏览器视窗高度
+        var viewHeight = document.documentElement.clientHeight
+        // 获取滚动的页数
+        var pageNum = document.querySelectorAll('.page').length
+        // 初始化当前位置, 距离原始顶部距离
+        var currentPosition = 0
+        // 设置页面高度
+        container.style.height = viewHeight + 'px'
+    
+        document.querySelector('#button-download-link').addEventListener("click", () => {
+            goDown()
+        })
+
+        document.querySelector('#button-join-group').addEventListener("click", () => {
+            // goDown()
+            // goDown()
+            window.open('https://mc.ecau.ink/maps/element_parkour/social/qq')
+        })
+
+        // 向下滚动页面
+        function goDown () {
+          if (currentPosition > - viewHeight * (pageNum - 1)) {
+            currentPosition = currentPosition - viewHeight
+            container.style.top = currentPosition + 'px'
+          }
+        }
+    
+        // 向上滚动页面
+        function goUp () {
+          if (currentPosition < 0) {
+            currentPosition = currentPosition + viewHeight
+            container.style.top = currentPosition + 'px'
+          }
+        }
+
+        // 节流函数
+        function throttle (fn, delay) {
+          let baseTime = 0
+          return function () {
+            const currentTime = Date.now()
+            if (baseTime + delay < currentTime) {
+              fn.apply(this, arguments)
+              baseTime = currentTime
+            }
+          }
+        }
+
+        // 初始鼠标滚动
+        var handlerWheel = throttle(scrollMove, 1000)
+        // https://developer.mozilla.org/en-US/docs/Web/API/Element/mousewheel_event#The_detail_property
+        // firefox的页面滚动事件其他浏览器不一样
+        if (navigator.userAgent.toLowerCase().indexOf('firefox') === -1) {
+          document.addEventListener('mousewheel', handlerWheel)
+        } else {
+          document.addEventListener('DOMMouseScroll', handlerWheel)
+        }
+        function scrollMove (e) {
+          if (e.deltaY > 0) {
+            goDown()
+          } else {
+            goUp()
+          }
+        }
+        
+        // 处理移动端滑动
+        var touchStartY = 0
+        document.addEventListener('touchstart', event => {
+          touchStartY = event.touches[0].pageY
+        })
+        var handleTouchEnd = throttle(touchEnd, 500)
+        document.addEventListener('touchend', handleTouchEnd)
+        function touchEnd (e) {
+          var touchEndY = e.changedTouches[0].pageY
+          if (touchEndY - touchStartY < 0) { // 向上滑动, 页面向下滚动
+            goDown()
+          } else {
+            goUp()
+          }
+        }
+      </script>
+</body>
+</html>
